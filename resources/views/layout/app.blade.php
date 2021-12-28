@@ -151,7 +151,7 @@
                             <li class="divider"></li>
                             <li><a href="#"><i class="mdi-action-lock-outline"></i> Lock</a>
                             </li>
-                            <li><a href="#"><i class="mdi-hardware-keyboard-tab"></i> Logout</a>
+                            <li><a href="{{route('logout')}}"><i class="mdi-hardware-keyboard-tab"></i> Logout</a>
                             </li>
                         </ul>
                         <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn" href="#" data-activates="profile-dropdown">Danish<i class="mdi-navigation-arrow-drop-down right"></i></a>
@@ -435,26 +435,30 @@
      <!-- data-tables -->
      <script type="text/javascript" src="{{asset('public/js/plugins/data-tables/js/jquery.dataTables.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('public/js/plugins/data-tables/data-tables-script.js')}}"></script>
-
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!-- Toast Notification -->
     @yield('js')
-<script type="text/javascript">
 
+@foreach ($errors as $error)
+<script>
+swal({
+    title: "{{ $error[0] }}",
+    icon: "warning",
+  });
 
+</script>
+@endforeach
 
-    // Toast Notification
-    // $(window).load(function() {
-    //     setTimeout(function() {
-    //         Materialize.toast('<span>Hiya! I am a toast.</span>', 1500);
-    //     }, 1500);
-    //     setTimeout(function() {
-    //         Materialize.toast('<span>You can swipe me too!</span>', 3000);
-    //     }, 5000);
-    //     setTimeout(function() {
-    //         Materialize.toast('<span>You have new order.</span><a class="btn-flat yellow-text" href="#">Read<a>', 3000);
-    //     }, 15000);
-    // });
-    </script>
+@if(Session::has('message'))
+<script>
+swal({
+    title: "{{ Session::get('message') }}",
+    icon: "success",
+  });
+
+</script>
+@endif
+
 </body>
 
 </html>

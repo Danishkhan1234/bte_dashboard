@@ -13,7 +13,7 @@ class CountryController extends Controller
 
 {
 
-    protected $baseUrl = 'http://bte.baxkit.com/api/';
+    protected $baseUrl = 'http://localhost:8000/api/admin/';
     /**
      * Create a new controller instance.
      *
@@ -37,20 +37,32 @@ class CountryController extends Controller
 
 
     public function store(Request $request,ApiHelper $api){
-        $this->validate($request, [        
-        'name' => 'required',
-    ]);
 
-    $response = Http::post($this->baseUrl.''.'country/submit', [
+    $headers = [
+        'Authorization' => 'Bearer '.session()->get('access_token')
+        ];
+
+
+    $response = Http::withHeaders($headers)->post($this->baseUrl.''.'country', [
         'name' => $request['name'],
     ]);
-    return redirect()->route('admin.country')->with('message', 'Data has been Submit successfully!');
-
+    if(isset($response['message'])){
+        return redirect()->route('admin.country')->with('message', $response['message']);
+    }else{
+        return redirect()->back()->with('errors', $response['error']);
+    }
     }
 
 
         public function edit($id,ApiHelper $api){
-        $response = Http::get($this->baseUrl.''.'country/edit/'.$id)->json();
+
+
+            $headers = [
+                'Authorization' => 'Bearer '.session()->get('access_token')
+                ];
+
+        $response = Http::withHeaders($headers)->get($this->baseUrl.''.'country/edit/'.$id)->json();
+
         return view('admin.country.edit',[
         'country' => $response,
 
@@ -59,20 +71,40 @@ class CountryController extends Controller
     }
 
     public function update(Request $request,$id){
-        $this->validate($request, [        
-            'name' => 'required',
-        ]);
-        $response = Http::post($this->baseUrl.''.'country/update/'.$id, [
+
+        $headers = [
+            'Authorization' => 'Bearer '.session()->get('access_token')
+            ];
+
+        $response = Http::withHeaders($headers)->post($this->baseUrl.''.'country/update/'.$id, [
             'name' => $request['name'],
         ]);
-        return redirect()->route('admin.country')->with('message', 'Data has been Updated successfully!');
+
+        if(isset($response['message'])){
+            return redirect()->route('admin.country')->with('message', $response['message']);
+        }else{
+            return redirect()->back()->with('errors', $response['error']);
+        }
     
 
     }
-        public function delete($id){
-        $response = Http::get($this->baseUrl.''.'country/delete/'.$id)->json();
-        return redirect()->route('admin.country')->with('message', 'Data has been Deleted successfully!');
-    }
+ 
+ 
+    public function delete($id,ApiHelper $api){
+ 
+        $headers = [
+            'Authorization' => 'Bearer '.session()->get('access_token')
+            ];
+
+        $response = Http::withHeaders($headers)->get($this->baseUrl.''.'country/delete/'.$id)->json();
+ 
+        if(isset($response['message'])){
+            return redirect()->route('admin.country')->with('message', $response['message']);
+        }else{
+            return redirect()->route('admin.country')->with('error', $response['error']);
+        }
+
+       }
 
     }       
 

@@ -1,6 +1,6 @@
 @extends('layout.app')
 @section('content')
-      <!-- //////////////////////////////////////////////////////////////////////////// -->
+
 
       <!-- START CONTENT -->
       <section id="content">
@@ -35,19 +35,10 @@
               <div class="row">
 
                 <div class="col s12">
-                @if (session('message'))
-                <div id="card-alert" class="card green lighten-5">
-                      <div class="card-content green-text">
-                        <p>{{ session('message') }}.</p>
-                      </div>
-                      <button type="button" class="close green-text" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                      </button>
-                    </div>
-                    @endif
+            
                 <table id="data-table-simple" class="responsive-table display" cellspacing="0">
 
-                <p><a href="{{route('admin.city.create')}}" class="btn waves-effect waves-light blue">Create city</a></p>
+                <p><a href="{{route('admin.city.create')}}" class="btn btn-block indigo waves-effect waves-light">Create city</a></p>
                 <thead>
                     <tr>
                             <th>Id</th>
@@ -59,6 +50,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                      @if(isset($cities))
                         @foreach($cities as $city)
                         <tr role="row" class="even">
                             <td tabindex="0" class="sorting_1">{{$city['id']}}</td>
@@ -70,13 +62,14 @@
                             <form action="{{route('admin.city.delete',$city['id'])}}" method="POST">
                             @csrf
                             @method('delete')
-                            <a class="btn" href="{{route('admin.city.edit',$city['id'])}}"><i class="mdi-image-edit"></i></a>
-                            <button class=" btn " type="submit"><i class="mdi-action-delete
-"></i></button>
-                                                                </form>
-                                                            </td>
-                                                        </tr>
-                        @endforeach
+                            <a class="btn btn-block indigo waves-effect waves-light" href="{{route('admin.city.edit',$city['id'])}}"><i class="mdi-image-edit"></i></a>
+                            <button class=" btn btn-block indigo waves-effect waves-light " type="submit"><i class="mdi-action-delete"></i></button>
+                                </form>
+                                 </td>
+                                </tr>
+                             @endforeach
+                             @else                             
+                             @endif
                 </tbody>
                   </table>
                 </div>

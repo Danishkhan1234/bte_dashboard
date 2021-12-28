@@ -11,7 +11,7 @@ class ServiceController extends Controller
 
 {
 
-    protected $baseUrl = 'http://bte.baxkit.com/api/';
+    protected $baseUrl = 'http://localhost:8000/api/admin/';
     /**
      * Create a new controller instance.
      *
@@ -34,20 +34,33 @@ class ServiceController extends Controller
 
 
     public function store(Request $request,ApiHelper $api){
-        $this->validate($request, [        
-        'name' => 'required',
-    ]);
+     
+        $headers = [
+            'Authorization'=>'Bearer '.session()->get('access_token')
+            ];
 
-    $response = Http::post($this->baseUrl.''.'service/submit', [
+    $response =Http::withHeaders($headers)->post($this->baseUrl.''.'service', [
         'name' => $request['name'],
     ]);
-    return redirect()->route('admin.service')->with('message', 'Data has been Submit successfully!');
 
+    if(isset($response['message'])){
+
+        return redirect()->route('admin.service')->with('message',$response['message']);
+    }else{
+
+        return redirect()->back()->with('errors',$response['error']);
+    }
     }
 
 
         public function edit($id,ApiHelper $api){
-        $response = Http::get($this->baseUrl.''.'service/edit/'.$id)->json();
+
+
+            $headers = [
+                'Authorization'=>'Bearer '.session()->get('access_token')
+                ];
+      
+            $response = Http::withHeaders($headers)->get($this->baseUrl.''.'service/edit/'.$id)->json();
         return view('admin.service.edit',[
         'service' => $response,
 
@@ -56,18 +69,30 @@ class ServiceController extends Controller
     }
 
     public function update(Request $request,$id){
-        $this->validate($request, [        
-            'name' => 'required',
-        ]);
-        $response = Http::post($this->baseUrl.''.'service/update/'.$id, [
+
+        $headers = [
+            'Authorization'=>'Bearer '.session()->get('access_token')
+            ];
+
+        $response = Http::withHeaders($headers)->post($this->baseUrl.''.'service/update/'.$id, [
             'name' => $request['name'],
         ]);
-        return redirect()->route('admin.service')->with('message', 'Data has been Updated successfully!');
+       
+        if(isset($response['message'])){
+
+            return redirect()->route('admin.service')->with('message',$response['message']);
+        }else{
     
+            return redirect()->back()->with('errors',$response['error']);
+        }
 
     }
         public function delete($id){
-        $response = Http::get($this->baseUrl.''.'service/delete/'.$id)->json();
+            $headers = [
+                'Authorization'=>'Bearer '.session()->get('access_token')
+                ];
+
+        $response = Http::withHeaders($headers)->get($this->baseUrl.''.'service/delete/'.$id)->json();
         return redirect()->route('admin.service')->with('message', 'Data has been Deleted successfully!');
     }
 

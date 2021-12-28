@@ -56,27 +56,17 @@
             <p class="center login-form-text">Login</p>
           </div>
         </div>
-        @if (session('message'))
-        <div id="card-alert" class="card red lighten-5">
-                      <div class="card-content red-text">
-                        <p> {{ session('message') }}</p>
-                      </div>
-                      <button type="button" class="close red-text" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                      </button>
-                    </div>
-                    @endif
         <div class="row margin">
           <div class="input-field col s12">
             <i class="mdi-social-person-outline prefix"></i>
-            <input id="email" name="email" type="email" require>
+            <input id="email" value="{{old('email')}}" name="email" type="email" require autofocus>
             <label for="email" class="center-align">Email</label>
           </div>
         </div>
         <div class="row margin">
           <div class="input-field col s12">
             <i class="mdi-action-lock-outline prefix"></i>
-            <input id="password" name="password" type="password" require>
+            <input id="password" value="{{old('password')}}" name="password" type="password" require autofocus>
             <label for="password">Password</label>
           </div>
         </div>
@@ -120,6 +110,26 @@
     <script type="text/javascript" src="{{asset('public/js/plugins.js')}}"></script>
     <!--custom-script.js - Add your own theme custom JS-->
     <script type="text/javascript" src="{{asset('public/js/custom-script.js')}}"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    @if(Session::has('error'))
+<script>
+swal({
+    title: "{{ Session::get('error') }}",
+    icon: "warning",
+  });
+
+</script>
+@endif
+
+@if(Session::has('success'))
+<script>
+swal({
+    title: "{{ Session::get('success') }}",
+    icon: "success",
+  });
+
+</script>
+@endif
 
 </body>
 

@@ -13,7 +13,7 @@ class SkillController extends Controller
 
 {
 
-    protected $baseUrl = 'http://bte.baxkit.com/api/';
+    protected $baseUrl = 'http://localhost:8000/api/admin/';
     /**
      * Create a new controller instance.
      *
@@ -28,49 +28,92 @@ class SkillController extends Controller
     } 
 
 
-    public function create(){
-        return view('admin.skill.create');
+    public function create(ApiHelper $api){
+        return view('admin.skill.create',[
+            'services' => $api->getService(),
+        ]);
     }
 
 
 
 
     public function store(Request $request,ApiHelper $api){
-        $this->validate($request, [        
-        'name' => 'required',
+     
+
+    $headers = [
+        'Authorization' => 'Bearer '.session()->get('access_token')
+        ];
+
+    $response = $response = Http::withHeaders($headers)->post($this->baseUrl.''.'skill', [
+        'name' => $request['name'],
+        'service_id' => $request['service_id'],
     ]);
 
-    $response = Http::post($this->baseUrl.''.'skill/submit', [
-        'name' => $request['name'],
-    ]);
-    return redirect()->route('admin.skill')->with('message', 'Data has been Submit successfully!');
+
+    if(isset($response['message'])){
+
+        return redirect()->route('admin.skill')->with('message', $response['message']);
+    }else{
+
+        return redirect()->back()->with('errors',$response['error']);
+    }
+
 
     }
 
 
         public function edit($id,ApiHelper $api){
-        $response = Http::get($this->baseUrl.''.'skill/edit/'.$id)->json();
+
+            $headers = [
+                'Authorization' => 'Bearer '.session()->get('access_token')
+                ];
+
+        $response=Http::withHeaders($headers)->get($this->baseUrl.''.'skill/edit/'.$id)->json();
+
         return view('admin.skill.edit',[
         'skill' => $response,
+        'services' => $api->getService(),
 
     ]);
 
     }
 
     public function update(Request $request,$id){
-        $this->validate($request, [        
-            'name' => 'required',
-        ]);
-        $response = Http::post($this->baseUrl.''.'skill/update/'.$id, [
+
+        $headers = [
+            'Authorization' => 'Bearer '.session()->get('access_token')
+            ];
+
+        $response=Http::withHeaders($headers)->post($this->baseUrl.''.'skill/update/'.$id, [
             'name' => $request['name'],
+            'service_id' => $request['service_id'],
         ]);
-        return redirect()->route('admin.skill')->with('message', 'Data has been Updated successfully!');
+
+        if(isset($response['message'])){
+
+            return redirect()->route('admin.skill')->with('message',$response['message']);
+        }else{
+    
+            return redirect()->back()->with('errors',$response['error']);
+        }
+    
     
 
     }
         public function delete($id){
-        $response = Http::get($this->baseUrl.''.'skill/delete/'.$id)->json();
-        return redirect()->route('admin.skill')->with('message', 'Data has been Deleted successfully!');
+
+            $headers = [
+                'Authorization'=>'Bearer '.session()->get('access_token')
+                ];
+
+        $response = $response = Http::withHeaders($headers)->get($this->baseUrl.''.'skill/delete/'.$id)->json();
+
+        if(isset($response['message'])){
+            return redirect()->route('admin.skill')->with('message', $response['message']);
+        }else{
+            return redirect()->route('admin.skill')->with('error', $response['error']);
+        }
+
     }
 
     }       

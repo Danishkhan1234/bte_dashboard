@@ -13,7 +13,7 @@ class ContractTypeController extends Controller
 
 {
 
-    protected $baseUrl = 'http://bte.baxkit.com/api/';
+    protected $baseUrl = 'http://localhost:8000/api/';
     /**
      * Create a new controller instance.
      *

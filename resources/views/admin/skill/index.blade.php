@@ -35,19 +35,10 @@
               <div class="row">
 
                 <div class="col s12">
-                @if (session('message'))
-                <div id="card-alert" class="card green lighten-5">
-                      <div class="card-content green-text">
-                        <p>{{ session('message') }}.</p>
-                      </div>
-                      <button type="button" class="close green-text" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                      </button>
-                    </div>
-                    @endif
+            
                 <table id="data-table-simple" class="responsive-table display" cellspacing="0">
 
-                <p><a href="{{route('admin.skill.create')}}" class="btn waves-effect waves-light blue">Create skill</a></p>
+                <p><a href="{{route('admin.skill.create')}}" class="btn btn-block indigo waves-effect waves-light">Create skill</a></p>
                 <thead>
                     <tr>
                             <th>Id</th>
@@ -68,8 +59,8 @@
                                                                 <form action="{{route('admin.skill.delete',$skill['id'])}}" method="POST">
                                                                     @csrf
                                                                     @method('delete')
-                                                                    <a class="btn" href="{{route('admin.skill.edit',$skill['id'])}}"><i class="mdi-image-edit"></i></a>
-                                                                    <button class=" btn " type="submit"><i class="mdi-action-delete
+                                                                    <a class="btn btn-block indigo waves-effect waves-light" href="{{route('admin.skill.edit',$skill['id'])}}"><i class="mdi-image-edit"></i></a>
+                                                                    <button class="btn btn-block indigo waves-effect waves-light" type="submit"><i class="mdi-action-delete
 "></i></button>
                                                                 </form>
                                                             </td>

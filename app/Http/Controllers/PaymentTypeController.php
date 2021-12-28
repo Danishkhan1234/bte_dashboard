@@ -12,7 +12,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class PaymentTypeController extends Controller
 
 {
-    protected $baseUrl = 'http://bte.baxkit.com/api/';
+    protected $baseUrl = 'http://localhost:8000/api/';
 
 
     public function index(ApiHelper $api){

@@ -1,0 +1,4 @@
+[29-Oct-2021 15:40:26 UTC] PHP Fatal error:  Constant expression contains invalid operations in /home1/jamesbond007/btebackend.silicamark.work/app/Helper/ApiHelper.php on line 18
+[29-Oct-2021 15:40:28 UTC] PHP Fatal error:  Constant expression contains invalid operations in /home1/jamesbond007/btebackend.silicamark.work/app/Helper/ApiHelper.php on line 18
+[22-Dec-2021 06:55:33 UTC] PHP Fatal error:  Cannot use isset() on the result of an expression (you can use "null !== expression" instead) in /home1/jamesbond007/btebackend.silicamark.work/app/Http/Controllers/SkillController.php on line 102
+[22-Dec-2021 06:55:53 UTC] PHP Fatal error:  Cannot use isset() on the result of an expression (you can use "null !== expression" instead) in /home1/jamesbond007/btebackend.silicamark.work/app/Http/Controllers/SkillController.php on line 102

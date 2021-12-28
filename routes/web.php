@@ -42,8 +42,12 @@ use App\Http\Controllers\TicketController;
                 return view('welcome');
             });
 
-                Route::get('/login', [AdminController::class, 'login_page']);
+
+
+                Route::get('/login', [AdminController::class, 'login_page'])->name('login');
                 Route::post('/login', [AdminController::class, 'login'])->name('admin.login');
+
+                Route::get('/logout', [AdminController::class, 'logout'])->name('logout');
                
                 Route::group(['middleware'=>'admin_auth'],function(){
 
@@ -52,6 +56,17 @@ use App\Http\Controllers\TicketController;
 
                 //User
                 Route::get('/user', [UserController::class, 'index'])->name('admin.user');
+               
+               Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('admin.user.edit');
+               Route::get('/user/show/{id}', [UserController::class, 'show'])->name('admin.user.show');
+               Route::put('/user/update/{id}', [UserController::class, 'update'])->name('admin.user.update');
+                
+                
+
+               
+
+              
+
 
                 Route::get('/tickets', [TicketController::class, 'index'])->name('admin.ticket');
    
